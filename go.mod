@@ -3,20 +3,22 @@ module kmodules.xyz/metrics-configuration-checker
 go 1.16
 
 require (
-	github.com/gohugoio/hugo v0.80.0
+	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/olekukonko/tablewriter v0.0.4
+	github.com/onsi/ginkgo v1.15.0 // indirect
+	github.com/onsi/gomega v1.10.5 // indirect
+	github.com/pkg/errors v0.9.1
+	github.com/russross/blackfriday v1.5.3-0.20200218234912-41c5fccfd6f6 // indirect
 	github.com/spf13/cobra v1.1.3
-	github.com/yuin/goldmark v1.3.2
 	gomodules.xyz/kglog v0.0.3
+	k8s.io/apiextensions-apiserver v0.21.0
 	k8s.io/apimachinery v0.21.0
 	k8s.io/cli-runtime v0.21.0
 	k8s.io/component-base v0.21.0
+	k8s.io/klog/v2 v2.8.0
 	k8s.io/kubectl v0.21.0
 	kmodules.xyz/client-go v0.0.0-20210514054158-27e164b43474
 	kmodules.xyz/resource-metadata v0.5.5-0.20210518185031-147bfd9e841c
-	kmodules.xyz/resource-validator v0.0.0-20210505180422-99e3eaad5765
-	kubedb.dev/installer v0.17.2-0.20210516182219-b2a806b6fb2f
-	stash.appscode.dev/installer v0.12.2-0.20210528131103-1a0fccb52792
 )
 
 replace bitbucket.org/ww/goautoneg => gomodules.xyz/goautoneg v0.0.0-20120707110453-a547fc61f48d

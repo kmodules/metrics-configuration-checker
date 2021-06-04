@@ -124,7 +124,9 @@ github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.5
 github.com/spf13/pflag
 # github.com/stretchr/testify v1.6.1
+## explicit
 github.com/stretchr/testify/assert
+github.com/stretchr/testify/require
 # github.com/xlab/treeprint v0.0.0-20181112141820-a009c3971eca
 github.com/xlab/treeprint
 # github.com/yudai/gojsondiff v1.0.0

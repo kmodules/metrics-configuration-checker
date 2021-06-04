@@ -1,0 +1,39 @@
+apiVersion: metrics.appscode.com/v1alpha1
+kind: MetricsConfiguration
+metadata:
+  name: dpl-metrics-config
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+  metrics:
+    - name: kube_deployment_spec_replicas
+      help: "Number of desired pod of a deployment"
+      type: gauge
+      field:
+        path: .spec.replicas
+        type: Integer
+      metricValue:
+        valueFromPath: .spec.replicas
+
+
+    - name: kube_deployment_spec_strategy_rollingupdate_max_unavailable
+      help: "Maximum number of unavailable replicas during a rolling update of a deployment."
+      type: gauge
+      params:
+        - key: replicas
+          valuePath: .spec.replicas
+        - key: maxUnavailable
+          valuePath: .spec.strategy.rollingUpdate.maxUnavailable
+      metricValue:
+        valueFromExpression: "evaluatePercentage(replicas , maxUnavailable)"
+
+
+    - name: kube_deployment_status_replicas_available
+      help: "The number of available pod per deployment."
+      type: gauge
+      field:
+        path: .status.availableReplicas
+        type: Integer
+      metricValue:
+        valueFromPath: .status.availableReplicas

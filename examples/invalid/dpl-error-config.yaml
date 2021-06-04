@@ -1,0 +1,18 @@
+apiVersion: metrics.appscode.com/v1alpha1
+kind: MetricsConfiguration
+metadata:
+  name: dpl-metrics-config
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+  metrics:
+    - name: kube_deployment_spec_replicas
+      help: "Number of desired pod of a deployment"
+      type: gauge
+      field:
+        path: .spec.replicas
+        type: Integer
+      metricValue:
+        valueFromPath: .spec.replica   #correct field: .spec.replicas
+

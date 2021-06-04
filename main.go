@@ -46,8 +46,8 @@ var (
 	logger   = NewLogger(os.Stderr)
 )
 
-func main() {
-	var rootCmd = &cobra.Command{
+func NewRootCmd() *cobra.Command {
+	return &cobra.Command{
 		Use:   "metrics-configuration-checker",
 		Short: "Check schema of MetricsConfiguration resource",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -70,6 +70,9 @@ func main() {
 			return logger.Result()
 		},
 	}
+}
+
+func Initialize(rootCmd *cobra.Command) {
 	flags := rootCmd.Flags()
 	// Normalize all flags that are coming from other packages or pre-configurations
 	// a.k.a. change all "_" to "-". e.g. glog package
@@ -86,6 +89,11 @@ func main() {
 
 	kglog.Init(rootCmd, false)
 
+}
+
+func main() {
+	rootCmd := NewRootCmd()
+	Initialize(rootCmd)
 	utilruntime.Must(rootCmd.Execute())
 }
 
@@ -137,9 +145,9 @@ func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
 			currSchema = val
 		} else {
 			if generateError {
-				return errors.Errorf("json path %q doesn't exist", jsonPath)
+				return errors.Errorf("json path %q doesn't exist in resource descriptor", jsonPath)
 			}
-			klog.Infof("json path %q doesn't exist", jsonPath)
+			klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
 			break
 		}
 	}
@@ -148,6 +156,8 @@ func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
 
 func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 	obj = obj.DeepCopy()
+
+	// get metrics configurations object .spec.targetRef field
 	targetRef, ok, err := unstructured.NestedStringMap(obj.Object, "spec", "targetRef")
 	if err != nil {
 		logger.Log(err)
@@ -159,6 +169,7 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 		logger.Log(errors.New("targetRef is missing in MetricsConfiguration Spec"))
 		return nil
 	}
+
 	gv, err := schema.ParseGroupVersion(targetRef["apiVersion"])
 	if err != nil {
 		logger.Log(err)
@@ -174,21 +185,26 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 		logger.Log(err)
 		return nil
 	}
+
+	// get resource descriptor from groupVersionResource
 	rd, err := reg.LoadByGVR(gvr)
 	if err != nil {
 		logger.Log(err)
 		return nil
 	}
+
+	// get metrics list
 	metrics, ok, err := unstructured.NestedSlice(obj.Object, "spec", "metrics")
 	if err != nil || !ok {
 		logger.Log(errors.New("no metrics is specified"))
 		return nil
 	}
 
+	// looping over the metrics list and check json paths
 	for _, m := range metrics {
 		met := m.(map[string]interface{})
 
-		// Check Field path
+		// check Field path
 		if met["field"] != nil {
 			field := met["field"].(map[string]interface{})
 			if field["path"] != nil {
@@ -199,7 +215,7 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 			}
 		}
 
-		// Check Label's json path
+		// check Label's json path
 		if met["labels"] != nil {
 			labels := met["labels"].([]interface{})
 			for _, l := range labels {
@@ -213,7 +229,7 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 			}
 		}
 
-		// Check Parameter's json path
+		// check Parameter's json path
 		if met["params"] != nil {
 			params := met["params"].([]interface{})
 			for _, par := range params {

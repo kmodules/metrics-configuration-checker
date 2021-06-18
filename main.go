@@ -17,7 +17,6 @@ limitations under the License.
 package main
 
 import (
-	"flag"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -28,14 +27,13 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"gomodules.xyz/kglog"
+	"gomodules.xyz/logs"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
-	cliflag "k8s.io/component-base/cli/flag"
 	"k8s.io/klog/v2"
 	cmdutil "k8s.io/kubectl/pkg/cmd/util"
 )
@@ -72,28 +70,18 @@ func NewRootCmd() *cobra.Command {
 	}
 }
 
-func Initialize(rootCmd *cobra.Command) {
+func main() {
+	rootCmd := NewRootCmd()
+
 	flags := rootCmd.Flags()
-	// Normalize all flags that are coming from other packages or pre-configurations
-	// a.k.a. change all "_" to "-". e.g. glog package
-	flags.SetNormalizeFunc(cliflag.WordSepNormalizeFunc)
+	flags.StringVar(&filename, "content", filename, "Path to directory where metrics configurations files reside")
 
 	kubeConfigFlags := genericclioptions.NewConfigFlags(true)
 	kubeConfigFlags.AddFlags(flags)
 	matchVersionKubeConfigFlags := cmdutil.NewMatchVersionFlags(kubeConfigFlags)
 	matchVersionKubeConfigFlags.AddFlags(flags)
 
-	flags.AddGoFlagSet(flag.CommandLine)
-
-	flags.StringVar(&filename, "content", filename, "Path to directory where metrics configurations files reside")
-
-	kglog.Init(rootCmd, false)
-
-}
-
-func main() {
-	rootCmd := NewRootCmd()
-	Initialize(rootCmd)
+	logs.Init(rootCmd, false)
 	utilruntime.Must(rootCmd.Execute())
 }
 

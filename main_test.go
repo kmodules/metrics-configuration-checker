@@ -25,7 +25,8 @@ import (
 func Test_ExecuteCommand(t *testing.T) {
 	t.Parallel()
 	rootCmd := NewRootCmd()
-	Initialize(rootCmd)
+	flags := rootCmd.Flags()
+	flags.StringVar(&filename, "content", filename, "Path to directory where metrics configurations files reside")
 
 	// test all valid metrics configuration manifest files from a directory
 	rootCmd.SetArgs([]string{"--content", "./examples/valid"})

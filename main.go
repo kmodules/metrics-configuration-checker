@@ -17,6 +17,7 @@ limitations under the License.
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -97,7 +98,7 @@ func check(path string, info os.FileInfo, err error) error {
 			return err
 		}
 	} else {
-		return errors.New("bad file format. Supported file formats are: .yaml, .yml, .json")
+		_, _ = fmt.Fprintf(os.Stderr, "skipped file: %s\n", path)
 	}
 	return nil
 }

@@ -33,9 +33,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/klog/v2"
-	cmdutil "k8s.io/kubectl/pkg/cmd/util"
 )
 
 var (
@@ -75,11 +73,6 @@ func main() {
 
 	flags := rootCmd.Flags()
 	flags.StringVar(&filename, "content", filename, "Path to directory where metrics configurations files reside")
-
-	kubeConfigFlags := genericclioptions.NewConfigFlags(true)
-	kubeConfigFlags.AddFlags(flags)
-	matchVersionKubeConfigFlags := cmdutil.NewMatchVersionFlags(kubeConfigFlags)
-	matchVersionKubeConfigFlags.AddFlags(flags)
 
 	logs.Init(rootCmd, false)
 	utilruntime.Must(rootCmd.Execute())

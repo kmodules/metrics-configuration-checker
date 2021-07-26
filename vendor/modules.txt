@@ -173,7 +173,7 @@ gomodules.xyz/clock
 gomodules.xyz/flags
 # gomodules.xyz/jsonpatch/v2 v2.2.0
 gomodules.xyz/jsonpatch/v2
-# gomodules.xyz/logs v0.0.2
+# gomodules.xyz/logs v0.0.3
 ## explicit
 gomodules.xyz/logs
 # gomodules.xyz/sets v0.0.0-20210218105342-2efe2fb519a2
@@ -489,7 +489,7 @@ k8s.io/utils/integer
 k8s.io/utils/pointer
 # kmodules.xyz/apiversion v0.2.0
 kmodules.xyz/apiversion
-# kmodules.xyz/client-go v0.0.0-20210617233340-13d22e91512b
+# kmodules.xyz/client-go v0.0.0-20210719120358-dd0503cf99cf
 ## explicit
 kmodules.xyz/client-go
 kmodules.xyz/client-go/api/v1
@@ -499,7 +499,7 @@ kmodules.xyz/client-go/apiextensions/v1beta1
 kmodules.xyz/client-go/discovery
 kmodules.xyz/client-go/meta
 kmodules.xyz/client-go/tools/parser
-# kmodules.xyz/resource-metadata v0.5.7
+# kmodules.xyz/resource-metadata v0.5.8-0.20210722055301-dcc1abc08aa0
 ## explicit
 kmodules.xyz/resource-metadata/apis/meta
 kmodules.xyz/resource-metadata/apis/meta/v1alpha1

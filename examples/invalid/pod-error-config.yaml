@@ -1,0 +1,17 @@
+apiVersion: metrics.appscode.com/v1alpha1
+kind: MetricsConfiguration
+metadata:
+  name: pod-metrics-config
+spec:
+  targetRef:
+    apiVersion: v1
+    kind: Pod
+  metrics:
+    - name: kube_pod_info
+      help: "Information about a pod."
+      type: gauge
+      labels:
+        - key: node
+          valuePath: .spec.nodename      #correct field: .spec.nodeName
+      metricValue:
+        value: 1

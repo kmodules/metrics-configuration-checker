@@ -1,0 +1,17 @@
+apiVersion: metrics.appscode.com/v1alpha1
+kind: MetricsConfiguration
+metadata:
+  name: sts-metrics-config
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+  metrics:
+    - name: kube_statefulset_replicas
+      help: "Number of desired pods for a StatefulSet"
+      type: gauge
+      field:
+        path: .specreplicas   # correct field: .spec.replicas
+        type: Integer
+      metricValue:
+        valueFromPath: .spec.replicas

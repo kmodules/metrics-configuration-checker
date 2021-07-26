@@ -1,0 +1,275 @@
+apiVersion: metrics.appscode.com/v1alpha1
+kind: MetricsConfiguration
+metadata:
+  name: pod-metrics-config
+spec:
+  targetRef:
+    apiVersion: v1
+    kind: Pod
+  metrics:
+    - name: kube_pod_created
+      help: "Unix creation timestamp"
+      type: gauge
+      field:
+        path: .metadata.creationTimestamp
+        type: DateTime
+      metricValue:
+        valueFromPath: .metadata.creationTimestamp
+    - name: kube_pod_info
+      help: "Information about a pod."
+      type: gauge
+      labels:
+        - key: host_ip
+          valuePath: .status.hostIP
+        - key: pod_ip
+          valuePath: .status.podIP
+        - key: node
+          valuePath: .spec.nodeName
+        - key: priority_class
+          valuePath: .spec.priorityClassName
+        - key: host_network
+          valuePath: .spec.hostNetwork
+      metricValue:
+        value: "1"
+    - name: kube_pod_status_phase
+      help: "The pods current phase."
+      type: gauge
+      field:
+        path: .status.phase
+        type: String
+      labels:
+        - key: name
+          valuePath: .status.name
+      params:
+        - key: phase
+          valuePath: .status.Phase
+      states:
+        labelKey: phase
+        values:
+          - labelValue: Running
+            metricValue:
+              valueFromExpression: "toInt(phase == 'Running')"
+          - labelValue: Failed
+            metricValue:
+              valueFromExpression: "toInt(phase == 'Failed')"
+          - labelValue: Pending
+            metricValue:
+              valueFromExpression: "toInt(phase == 'Pending')"
+          - labelValue: Unknown
+            metricValue:
+              valueFromExpression: "toInt(phase == 'Unknown')"
+          - labelValue: Succeeded
+            metricValue:
+              valueFromExpression: "toInt(phase == 'Succeeded')"
+    - name: kube_pod_container_info
+      help: "Information about a container in a pod."
+      type: gauge
+      field:
+        path: .status.containerStatuses
+        type: Array
+      labels:
+        - key: container
+          valuePath: .status.containerStatuses[*].name
+        - key: image
+          valuePath: .status.containerStatuses[*].image
+      metricValue:
+        value: "1"
+    - name: kube_pod_container_status_restarts_total
+      help: "The number of container restarts per container"
+      type: gauge
+      field:
+        path: .status.containerStatuses
+        type: Array
+      labels:
+        - key: container
+          valuePath: .status.containerStatuses[*].name
+      metricValue:
+        valueFromPath: .status.containerStatuses[*].restartCount
+    - name: kube_pod_container_resource_requests_cpu
+      help: "The number of requested cpu resource by a container."
+      type: gauge
+      field:
+        path: .spec.containers
+        type: Array
+      # params:
+      #   - key: cpu
+      #     valuePath: .spec.containers[*].resources.requests.cpu
+      labels:
+        - key: container
+          valuePath: .spec.containers[*].name
+        - key: node
+          valuePath: .spec.nodeName
+        - key: unit
+          value: core
+      metricValue:
+        value: 1
+        #valueFromExpression: "calculateCPU(cpu)"
+    - name: kube_pod_container_resource_requests_memory
+      help: "The number of requested memory resource by a container."
+      type: gauge
+      field:
+        path: .spec.containers
+        type: Array
+      # params:
+      #   - key: memory
+      #     valuePath: .spec.containers[*].resources.requests.memory
+      labels:
+        - key: container
+          valuePath: .spec.containers[*].name
+        - key: unit
+          value: byte
+        - key: node
+          valuePath: .spec.nodeName
+      metricValue:
+        value: 1
+        #valueFromExpression: "calculateMemory(memory)"
+    - name: kube_pod_container_resource_limits_cpu
+      help: "The number of requested cpu limit by a container."
+      type: gauge
+      field:
+        path: .spec.containers
+        type: Array
+      # params:
+      #   - key: cpu
+      #     valuePath: .spec.containers[*].resources.limits.cpu
+      labels:
+        - key: container
+          valuePath: .spec.containers[*].name
+        - key: unit
+          value: core
+        - key: node
+          valuePath: .spec.nodeName
+      metricValue:
+        value: 1
+        #valueFromExpression: "calculateCPU(cpu)"
+    - name: kube_pod_container_resource_limits_memory
+      help: "The number of requested memory limit by a container."
+      type: gauge
+      field:
+        path: .spec.containers
+        type: Array
+      # params:
+      #   - key: memory
+      #     valuePath: .spec.containers[*].resources.limits.memory
+      labels:
+        - key: container
+          valuePath: .spec.containers[*].name
+        - key: node
+          valuePath: .spec.nodeName
+        - key: unit
+          value: byte
+      metricValue:
+        value: 1
+        #valueFromExpression: "calculateMemory(memory)"
+    - name: kube_pod_container_state_started
+      help: "Start time in unix timestamp for a pod container."
+      type: gauge
+      field:
+        path: .status.containerStatuses
+        type: Array
+      params:
+        - key: startedAt
+          valuePath: .status.containerStatuses[*].state.running.StartedAt
+      labels:
+        - key: container
+          valuePath: .status.containerStatuses[*].name
+      metricValue:
+        valueFromExpression: "toUnix(startedAt)"
+    - name: kube_pod_container_status_last_terminated_reason
+      help: "Describes the last reason the container was in terminated state."
+      type: gauge
+      field:
+        path: .status.containerStatuses
+        type: Array
+      labels:
+        - key: container
+          valuePath: .status.containerStatuses[*].name
+        - key: reason
+          valuePath: .status.containerStatuses[*].LastTerminationState.Terminated.Reason
+      metricValue:
+        value: "1"
+    - name: kube_pod_container_status_ready
+      help: "Describes whether the containers readiness check succeeded."
+      type: gauge
+      field:
+        path: .status.containerStatuses
+        type: Array
+      labels:
+        - key: container
+          valuePath: .status.containerStatuses[*].name
+      params:
+        - key: ready
+          valuePath: .status.containerStatuses[*].ready
+      metricValue:
+        valueFromExpression: "toInt(ready == 'true')"
+    - name: kube_pod_owner
+      help: "Information about the Pod's owner."
+      type: gauge
+      field:
+        path: .metadata.ownerReferences
+        type: Array
+      labels:
+        - key: owner_kind
+          valuePath: .metadata.ownerReferences[*].kind
+        - key: owner_name
+          valuePath: .metadata.ownerReferences[*].name
+        - key: owner_is_controller
+          valuePath: .metadata.ownerReferences[*].controller
+      metricValue:
+        value: "1"
+    - name: kube_pod_status_reason
+      help: "The pod status reasons"
+      type: gauge
+      field:
+        path: .status.reason
+        type: String
+      params:
+        - key: reason
+          valuePath: .status.reason
+      states:
+        labelKey: reason
+        values:
+          - labelValue: NodeLost
+            metricValue:
+              valueFromExpression: "toInt(reason == 'NodeLost')"
+          - labelValue: Evicted
+            metricValue:
+              valueFromExpression: "toInt(reason == 'Evicted')"
+          - labelValue: UnexpectedAdmissionError
+            metricValue:
+              valueFromExpression: "toInt(reason == 'UnexpectedAdmissionError')"
+          - labelValue: NodeAffinity
+            metricValue:
+              valueFromExpression: "toInt(reason == 'NodeAffinity')"
+    - name: kube_pod_restart_policy
+      help: "Describe the restart policy in use by this pod"
+      type: gauge
+      labels:
+        - key: type
+          valuePath: .spec.restartPolicy
+      metricValue:
+        value: "1"
+    - name: kube_pod_status_conditions
+      help: "Describe the pod status conditions"
+      type: gauge
+      field:
+        path: .status.conditions
+        type: Array
+      labels:
+        - key: condition
+          valuePath: .status.conditions[*].type
+        - key: status
+          valuePath: .status.conditions[*].status
+      metricValue:
+        value: "1"
+    - name: kube_pod_start_time
+      help: "Start time in unix timestamp for a pod."
+      type: gauge
+      field:
+        path: .status.startTime
+        type: DateTime
+      metricValue:
+        valueFromPath: .status.startTime
+
+
+

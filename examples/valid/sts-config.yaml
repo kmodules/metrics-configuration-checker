@@ -1,0 +1,89 @@
+apiVersion: metrics.appscode.com/v1alpha1
+kind: MetricsConfiguration
+metadata:
+  name: sts-metrics-config
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+  metrics:
+    -  name: kube_statefulset_created
+       help: "Unix creation timestamp"
+       type: gauge
+       field:
+         path: .metadata.creationTimestamp
+         type: DateTime
+       metricValue:
+         valueFromPath: .metadata.CreationTimestamp
+    -  name: kube_statefulset_status_replicas
+       help: "The statefulSet generation observed by the controller"
+       type: gauge
+       field:
+         path: .status.replicas
+         type: Integer
+       metricValue:
+         valueFromPath: .status.replicas
+    -  name: kube_statefulset_status_replicas_current
+       help: "The number of current replicas per StatefulSet."
+       type: gauge
+       field:
+         path: .status.currentReplicas
+         type: Integer
+       metricValue:
+         valueFromPath: .status.currentReplicas
+    -  name: kube_statefulset_status_replica_ready
+       help: "The number of ready replicas per StatefulSet"
+       type: gauge
+       field:
+         path: .status.readyReplicas
+         type: Integer
+       metricValue:
+         valueFromPath: .status.readyReplicas
+    -  name: kube_statefulset_status_replicas_updated
+       help: "The number of updated replicas per StatefulSet."
+       type: gauge
+       field:
+         path: .status.updatedReplicas
+         type: Integer
+       metricValue:
+         valueFromPath: .status.updatedReplicas
+    -  name: kube_statefulset_status_observed_generation
+       help: "The generation observed by the StatefulSet controller."
+       type: gauge
+       field:
+         path: .status.observedGeneration
+         type: Integer
+       metricValue:
+         valueFromPath: .status.observedGeneration
+    -  name: kube_statefulset_replicas
+       help: "Number of desired pods for a StatefulSet"
+       type: gauge
+       field:
+         path: .spec.replicas
+         type: Integer
+       metricValue:
+         valueFromPath: .spec.replicas
+    -  name: kube_statefulset_metadata_generation
+       help: "Sequence number representing a specific generation of the desired state for the StatefulSet."
+       type: gauge
+       field:
+         path: .metadata.generation
+         type: Integer
+       metricValue:
+         valueFromPath: .metadata.generation
+    -  name: kube_statefulset_status_current_revision
+       help: "Indicates the version of the StatefulSet used to generate Pods in the sequence [0,currentReplicas)."
+       type: gauge
+       labels:
+         - key: revision
+           valuePath: .status.currentRevision
+       metricValue:
+         value: 1
+    -  name: kube_statefulset_status_update_revision
+       help: "Indicates the version of the StatefulSet used to generate Pods in the sequence [replicas-updatedReplicas,replicas)"
+       type: gauge
+       labels:
+         - key: revision
+           valuePath: .status.updateRevision
+       metricValue:
+         value: 1

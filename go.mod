@@ -10,7 +10,6 @@ require (
 	gomodules.xyz/logs v0.0.3
 	k8s.io/apiextensions-apiserver v0.21.1
 	k8s.io/apimachinery v0.21.1
-	k8s.io/klog/v2 v2.8.0
 	kmodules.xyz/client-go v0.0.0-20210719120358-dd0503cf99cf
 	kmodules.xyz/resource-metadata v0.5.8-0.20210722055301-dcc1abc08aa0
 )

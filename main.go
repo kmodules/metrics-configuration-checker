@@ -34,7 +34,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/klog/v2"
 )
 
 var (
@@ -115,21 +114,27 @@ func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
 		if strings.Contains(field, "[*]") {
 			arrayField := strings.TrimSuffix(field, "[*]")
 			val, ok := currSchema.Properties[arrayField]
+			if !ok && currSchema.Properties == nil && currSchema.Type == "object" {
+				generateError = false
+			}
 			if !ok {
 				if generateError {
-					return errors.Errorf("json path %q doesn't exist", jsonPath)
+					return errors.Errorf("json path %q doesn't exist in resource descriptor", jsonPath)
 				}
-				klog.Infof("json path %q doesn't exist", jsonPath)
+				//klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
 				break
 			}
 			currSchema = *val.Items.Schema
 		} else if val, ok := currSchema.Properties[field]; ok {
 			currSchema = val
 		} else {
+			if currSchema.Properties == nil && currSchema.Type == "object" {
+				generateError = false
+			}
 			if generateError {
 				return errors.Errorf("json path %q doesn't exist in resource descriptor", jsonPath)
 			}
-			klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
+			//klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
 			break
 		}
 	}

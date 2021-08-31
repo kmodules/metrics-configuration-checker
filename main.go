@@ -42,6 +42,10 @@ var (
 	logger   = NewLogger(os.Stderr)
 )
 
+const (
+	MetricsConfigurationKind = "MetricsConfiguration"
+)
+
 func NewRootCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "metrics-configuration-checker",
@@ -103,6 +107,9 @@ func check(path string, info os.FileInfo, err error) error {
 }
 
 func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
+	if jsonPath == "." {
+		return nil
+	}
 	generateError := true
 	fields := strings.Split(jsonPath, ".")
 	fields = fields[1:]
@@ -143,6 +150,11 @@ func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
 
 func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 	obj = obj.DeepCopy()
+
+	objKind := obj.GetKind()
+	if objKind != MetricsConfigurationKind {
+		return nil
+	}
 
 	// get metrics configurations object .spec.targetRef field
 	targetRef, ok, err := unstructured.NestedStringMap(obj.Object, "spec", "targetRef")

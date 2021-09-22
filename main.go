@@ -100,6 +100,9 @@ func check(path string, info os.FileInfo, err error) error {
 		if err != nil && !runtime.IsMissingKind(err) && !p.IsYAMLSyntaxError(err) {
 			return err
 		}
+		if !logger.errFound {
+			fmt.Printf("Checked file: %s, Status: OK\n", info.Name())
+		}
 	} else {
 		_, _ = fmt.Fprintf(os.Stderr, "skipped file: %s\n", path)
 	}
@@ -126,7 +129,7 @@ func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
 			}
 			if !ok {
 				if generateError {
-					return errors.Errorf("json path %q doesn't exist in resource descriptor", jsonPath)
+					return errors.Errorf("json path %q doesn't exist", jsonPath)
 				}
 				//klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
 				break
@@ -139,7 +142,7 @@ func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
 				generateError = false
 			}
 			if generateError {
-				return errors.Errorf("json path %q doesn't exist in resource descriptor", jsonPath)
+				return errors.Errorf("json path %q doesn't exist", jsonPath)
 			}
 			//klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
 			break
@@ -162,10 +165,10 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 		logger.Log(err)
 		return nil
 	} else if !ok {
-		logger.Log(errors.New("targetRef is missing in MetricsConfiguration Spec"))
+		logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: targetRef is missing in MetricsConfiguration Spec", objKind))
 		return nil
 	} else if targetRef["apiVersion"] == "" || targetRef["kind"] == "" {
-		logger.Log(errors.New("targetRef is missing in MetricsConfiguration Spec"))
+		logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: targetRef is missing in MetricsConfiguration Spec", objKind))
 		return nil
 	}
 
@@ -195,7 +198,7 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 	// get metrics list
 	metrics, ok, err := unstructured.NestedSlice(obj.Object, "spec", "metrics")
 	if err != nil || !ok {
-		logger.Log(errors.New("no metrics is specified"))
+		logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: no metrics is specified", objKind))
 		return nil
 	}
 
@@ -209,7 +212,7 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 			if field["path"] != nil {
 				err = isValidJsonPath(rd.Spec.Validation.OpenAPIV3Schema, field["path"].(string))
 				if err != nil {
-					logger.Log(err)
+					logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: %s", objKind, err.Error()))
 				}
 			}
 		}
@@ -222,7 +225,7 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 				if labelFields["valuePath"] != nil {
 					err = isValidJsonPath(rd.Spec.Validation.OpenAPIV3Schema, labelFields["valuePath"].(string))
 					if err != nil {
-						logger.Log(err)
+						logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: %s", objKind, err.Error()))
 					}
 				}
 			}
@@ -236,9 +239,8 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 				if paramFields["valuePath"] != nil {
 					err = isValidJsonPath(rd.Spec.Validation.OpenAPIV3Schema, paramFields["valuePath"].(string))
 					if err != nil {
-						logger.Log(err)
+						logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: %s", objKind, err.Error()))
 					}
-
 				}
 			}
 		}
@@ -249,7 +251,7 @@ func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
 			if metricValCfg["valueFromPath"] != nil {
 				err = isValidJsonPath(rd.Spec.Validation.OpenAPIV3Schema, metricValCfg["valueFromPath"].(string))
 				if err != nil {
-					logger.Log(err)
+					logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: %s", objKind, err.Error()))
 				}
 			}
 		}

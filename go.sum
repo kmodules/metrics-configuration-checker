@@ -747,8 +747,8 @@ kmodules.xyz/client-go v0.0.0-20210719120358-dd0503cf99cf h1:1TvaFkf0/6HcsN8jJUK
 kmodules.xyz/client-go v0.0.0-20210719120358-dd0503cf99cf/go.mod h1:E/vGngai00UtVwP8R4PWpPUBF/EZa6Ub9WS5+tVcs4M=
 kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4/go.mod h1:IIkUctlfoptoci0BOrsUf8ya+MOG5uaeh1PE4uzaIbA=
 kmodules.xyz/offshoot-api v0.0.0-20210804100837-d0388be3e60d/go.mod h1:3LECbAL3FgbyK80NP3V3Pmiuo/a3hFWg/PR6SPFhTns=
-kmodules.xyz/resource-metadata v0.5.8-0.20210916191446-b6e0dbe0e843 h1:3Nmq1N++FkleDvwyOnllQn1mj8Pn4poPaJTV1Qz7D1w=
-kmodules.xyz/resource-metadata v0.5.8-0.20210916191446-b6e0dbe0e843/go.mod h1:FpXWUvVESesHlaexlwqQvdI5Vtl8DCBcmBPWTVpiyn0=
+kmodules.xyz/resource-metadata v0.6.0-rc.0 h1:lYyxDGkOXqzrZf3mrTcFi780+nTbq7vuJ0orS1YbqPA=
+kmodules.xyz/resource-metadata v0.6.0-rc.0/go.mod h1:FpXWUvVESesHlaexlwqQvdI5Vtl8DCBcmBPWTVpiyn0=
 kmodules.xyz/resource-metrics v0.0.1/go.mod h1:5nlhi7MPPr09m7VblezHSz9cE1fuUypOSLlo+aN5mrA=
 rsc.io/quote/v3 v3.1.0/go.mod h1:yEA65RcK8LyAZtP9Kv3t0HmxON59tX3rD+tICJqUlj0=
 rsc.io/sampler v1.3.0/go.mod h1:T1hPZKmBbMNahiBKFy5HrXp6adAjACjK9JXDnKaTXpA=

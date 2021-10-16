@@ -151,8 +151,8 @@ func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
 	return nil
 }
 
-func checkMetricsConfigObject(obj *unstructured.Unstructured) error {
-	obj = obj.DeepCopy()
+func checkMetricsConfigObject(ri p.ResourceInfo) error {
+	obj := ri.Object.DeepCopy()
 
 	objKind := obj.GetKind()
 	if objKind != MetricsConfigurationKind {

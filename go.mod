@@ -8,11 +8,10 @@ require (
 	github.com/spf13/cobra v1.1.3
 	github.com/stretchr/testify v1.7.0
 	gomodules.xyz/logs v0.0.4
-	gomodules.xyz/x v0.0.8 // indirect
 	k8s.io/apiextensions-apiserver v0.21.1
 	k8s.io/apimachinery v0.21.1
 	kmodules.xyz/client-go v0.0.0-20211013093146-1fbfd52e78c9
-	kmodules.xyz/resource-metadata v0.6.4
+	kmodules.xyz/resource-metadata v0.7.0
 )
 
 replace bitbucket.org/ww/goautoneg => gomodules.xyz/goautoneg v0.0.0-20120707110453-a547fc61f48d

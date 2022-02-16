@@ -5,13 +5,13 @@ go 1.16
 require (
 	github.com/olekukonko/tablewriter v0.0.4
 	github.com/pkg/errors v0.9.1
-	github.com/spf13/cobra v1.1.3
+	github.com/spf13/cobra v1.2.1
 	github.com/stretchr/testify v1.7.0
-	gomodules.xyz/logs v0.0.4
+	gomodules.xyz/logs v0.0.6
 	k8s.io/apiextensions-apiserver v0.21.1
 	k8s.io/apimachinery v0.21.1
-	kmodules.xyz/client-go v0.0.0-20211013093146-1fbfd52e78c9
-	kmodules.xyz/resource-metadata v0.7.0
+	kmodules.xyz/client-go v0.0.0-20220215012708-9963581d69a7
+	kmodules.xyz/resource-metadata v0.9.4
 )
 
 replace bitbucket.org/ww/goautoneg => gomodules.xyz/goautoneg v0.0.0-20120707110453-a547fc61f48d
@@ -102,7 +102,7 @@ replace k8s.io/api => k8s.io/api v0.21.1
 
 replace k8s.io/apimachinery => github.com/kmodules/apimachinery v0.21.2-rc.0.0.20210617231004-332981b97d2d
 
-replace k8s.io/apiserver => github.com/kmodules/apiserver v0.21.2-0.20210716212718-83e5493ac170
+replace k8s.io/apiserver => github.com/kmodules/apiserver v0.21.2-0.20220112070009-e3f6e88991d9
 
 replace k8s.io/cli-runtime => k8s.io/cli-runtime v0.21.1
 

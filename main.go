@@ -131,7 +131,7 @@ func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
 				if generateError {
 					return errors.Errorf("json path %q doesn't exist", jsonPath)
 				}
-				//klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
+				// klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
 				break
 			}
 			currSchema = *val.Items.Schema
@@ -144,7 +144,7 @@ func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
 			if generateError {
 				return errors.Errorf("json path %q doesn't exist", jsonPath)
 			}
-			//klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
+			// klog.Infof("json path %q doesn't exist in resource descriptor", jsonPath)
 			break
 		}
 	}

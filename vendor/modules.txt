@@ -17,6 +17,8 @@ github.com/emicklei/go-restful/log
 github.com/evanphx/json-patch
 # github.com/fatih/structs v1.1.0
 github.com/fatih/structs
+# github.com/fsnotify/fsnotify v1.5.1
+github.com/fsnotify/fsnotify
 # github.com/go-logr/logr v0.4.0
 github.com/go-logr/logr
 # github.com/go-openapi/jsonpointer v0.19.3 => github.com/go-openapi/jsonpointer v0.19.3
@@ -149,7 +151,8 @@ gomodules.xyz/logs
 gomodules.xyz/sets
 # gomodules.xyz/wait v0.2.0
 gomodules.xyz/wait
-# gomodules.xyz/x v0.0.10
+# gomodules.xyz/x v0.0.13
+gomodules.xyz/x/ioutil
 gomodules.xyz/x/strings
 # google.golang.org/appengine v1.6.7
 google.golang.org/appengine/internal
@@ -413,7 +416,7 @@ k8s.io/utils/integer
 k8s.io/utils/pointer
 # kmodules.xyz/apiversion v0.2.0
 kmodules.xyz/apiversion
-# kmodules.xyz/client-go v0.0.0-20220215012708-9963581d69a7
+# kmodules.xyz/client-go v0.0.0-20220308080632-2543b61b64fd
 ## explicit
 kmodules.xyz/client-go
 kmodules.xyz/client-go/api/v1
@@ -422,7 +425,7 @@ kmodules.xyz/client-go/apiextensions/v1
 kmodules.xyz/client-go/discovery
 kmodules.xyz/client-go/meta
 kmodules.xyz/client-go/tools/parser
-# kmodules.xyz/resource-metadata v0.9.4
+# kmodules.xyz/resource-metadata v0.10.0
 ## explicit
 kmodules.xyz/resource-metadata/apis/meta
 kmodules.xyz/resource-metadata/apis/meta/v1alpha1

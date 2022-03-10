@@ -10,8 +10,8 @@ require (
 	gomodules.xyz/logs v0.0.6
 	k8s.io/apiextensions-apiserver v0.21.1
 	k8s.io/apimachinery v0.21.1
-	kmodules.xyz/client-go v0.0.0-20220215012708-9963581d69a7
-	kmodules.xyz/resource-metadata v0.9.4
+	kmodules.xyz/client-go v0.0.0-20220308080632-2543b61b64fd
+	kmodules.xyz/resource-metadata v0.10.0
 )
 
 replace bitbucket.org/ww/goautoneg => gomodules.xyz/goautoneg v0.0.0-20120707110453-a547fc61f48d

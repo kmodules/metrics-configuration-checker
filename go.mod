@@ -3,6 +3,7 @@ module kmodules.xyz/metrics-configuration-checker
 go 1.16
 
 require (
+	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/olekukonko/tablewriter v0.0.4
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.2.1

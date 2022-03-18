@@ -3,7 +3,6 @@ module kmodules.xyz/metrics-configuration-checker
 go 1.16
 
 require (
-	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/olekukonko/tablewriter v0.0.4
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.2.1
@@ -12,7 +11,7 @@ require (
 	k8s.io/apiextensions-apiserver v0.21.1
 	k8s.io/apimachinery v0.21.1
 	kmodules.xyz/client-go v0.0.0-20220308080632-2543b61b64fd
-	kmodules.xyz/resource-metadata v0.10.0
+	kmodules.xyz/resource-metadata v0.10.6
 )
 
 replace bitbucket.org/ww/goautoneg => gomodules.xyz/goautoneg v0.0.0-20120707110453-a547fc61f48d

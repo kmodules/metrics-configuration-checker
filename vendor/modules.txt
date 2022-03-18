@@ -63,7 +63,6 @@ github.com/imdario/mergo
 # github.com/inconshreveable/mousetrap v1.0.0
 github.com/inconshreveable/mousetrap
 # github.com/json-iterator/go v1.1.12
-## explicit
 github.com/json-iterator/go
 # github.com/mailru/easyjson v0.7.0
 github.com/mailru/easyjson/buffer
@@ -426,7 +425,7 @@ kmodules.xyz/client-go/apiextensions/v1
 kmodules.xyz/client-go/discovery
 kmodules.xyz/client-go/meta
 kmodules.xyz/client-go/tools/parser
-# kmodules.xyz/resource-metadata v0.10.0
+# kmodules.xyz/resource-metadata v0.10.6
 ## explicit
 kmodules.xyz/resource-metadata/apis/meta
 kmodules.xyz/resource-metadata/apis/meta/v1alpha1

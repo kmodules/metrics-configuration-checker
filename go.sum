@@ -860,8 +860,8 @@ kmodules.xyz/client-go v0.0.0-20220308080632-2543b61b64fd h1:9sOSO9moUpqn2CKeXh+
 kmodules.xyz/client-go v0.0.0-20220308080632-2543b61b64fd/go.mod h1:hu7eGess/SEbiss671Y062QBc8O45Qh0IGv19/0kPXM=
 kmodules.xyz/crd-schema-fuzz v0.0.0-20210618002152-fae23aef5fb4/go.mod h1:IIkUctlfoptoci0BOrsUf8ya+MOG5uaeh1PE4uzaIbA=
 kmodules.xyz/offshoot-api v0.0.0-20210829122105-6f4d481b0c61/go.mod h1:3LECbAL3FgbyK80NP3V3Pmiuo/a3hFWg/PR6SPFhTns=
-kmodules.xyz/resource-metadata v0.10.0 h1:bvNWP0DFFTsJN6zhvMOWJZL2l6SIwH8dAOherLzOcjo=
-kmodules.xyz/resource-metadata v0.10.0/go.mod h1:9GhjDZXgS1bGBg+l6WBrkQcBLRV3TfvmW4UBxlE3xN4=
+kmodules.xyz/resource-metadata v0.10.6 h1:HtH+HyrCDpyxo+sfESgFD8CHqfb4WrlDq4EwTvCqhBA=
+kmodules.xyz/resource-metadata v0.10.6/go.mod h1:qWuTgax14kFDvforuCmDVigK0Vx9m9+bpIb/OjUd8bM=
 kmodules.xyz/resource-metrics v0.0.8/go.mod h1:M7rWuo2qh3BpHhogiEVPnvGY9Xx4Pfygqn1Rex8YbgM=
 kmodules.xyz/schema-checker v0.2.0/go.mod h1:J1QUIFsqW0h/WNrIGzzy3UopTzg+RmMJXxvAZfmYDb4=
 rsc.io/quote/v3 v3.1.0/go.mod h1:yEA65RcK8LyAZtP9Kv3t0HmxON59tX3rD+tICJqUlj0=

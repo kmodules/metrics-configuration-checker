@@ -11,7 +11,7 @@ require (
 	k8s.io/apiextensions-apiserver v0.21.1
 	k8s.io/apimachinery v0.21.1
 	kmodules.xyz/client-go v0.0.0-20220317213815-2a6d5a5784f2
-	kmodules.xyz/resource-metadata v0.10.14
+	kmodules.xyz/resource-metadata v0.10.15
 )
 
 replace github.com/Masterminds/sprig/v3 => github.com/gomodules/sprig/v3 v3.2.3-0.20220402001353-7974c9ab9cc9

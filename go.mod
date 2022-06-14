@@ -11,7 +11,7 @@ require (
 	k8s.io/apiextensions-apiserver v0.24.1
 	k8s.io/apimachinery v0.24.1
 	kmodules.xyz/client-go v0.24.0
-	kmodules.xyz/resource-metadata v0.11.0
+	kmodules.xyz/resource-metadata v0.11.2
 )
 
 require (

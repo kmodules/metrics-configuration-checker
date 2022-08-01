@@ -18,6 +18,7 @@ package v1alpha1
 
 import (
 	kmapi "kmodules.xyz/client-go/api/v1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 
 	crdv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -36,7 +37,7 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
-// +kubebuilder:resource:path=resourcedescriptors,singular=resourcedescriptor,shortName=rd
+// +kubebuilder:resource:path=resourcedescriptors,singular=resourcedescriptor,shortName=rd,scope=Cluster
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase"
 // +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
@@ -63,25 +64,23 @@ type ResourceDescriptorSpec struct {
 
 	// Links are a list of descriptive URLs intended to be used to surface additional documentation, dashboards, etc.
 	Links []Link `json:"links,omitempty"`
+
+	// +optional
+	Exec []ResourceExec `json:"exec,omitempty"`
 }
 
-type ResourceLocator struct {
-	Ref   metav1.GroupKind `json:"ref"`
-	Query ResourceQuery    `json:"query"`
-}
-
-// +kubebuilder:validation:Enum=REST;GraphQL
-type QueryType string
-
-const (
-	RESTQuery    QueryType = "REST"
-	GraphQLQuery QueryType = "GraphQL"
-)
-
-type ResourceQuery struct {
-	Type    QueryType       `json:"type"`
-	ByLabel kmapi.EdgeLabel `json:"byLabel,omitempty"`
-	Raw     string          `json:"raw,omitempty"`
+type ResourceExec struct {
+	Alias string `json:"alias"`
+	// +optional
+	If *shared.If `json:"if,omitempty"`
+	// +optional
+	ServiceNameTemplate string `json:"serviceNameTemplate,omitempty"`
+	// +optional
+	Container string `json:"container,omitempty"`
+	// +optional
+	Command []string `json:"command,omitempty"`
+	// +optional
+	Help string `json:"help,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=List;Field
@@ -208,17 +207,31 @@ type ResourceColumnDefinition struct {
 	Color     *ColorDefinition     `json:"color,omitempty"`
 	TextAlign string               `json:"textAlign,omitempty"`
 	Dashboard *DashboardDefinition `json:"dashboard,omitempty"`
+	Exec      *ExecDefinition      `json:"exec,omitempty"`
 }
 
 type DashboardDefinition struct {
-	Name      string     `json:"name,omitempty"`
-	Dashboard *Dashboard `json:"-"`
+	Name      string            `json:"name,omitempty"`
+	Dashboard *shared.Dashboard `json:"-"`
 	// URL does not include the target variables
 	URL string `json:"-"`
 	// Status
 	Status RenderStatus `json:"-"`
 	// Message
 	Message string `json:"-"`
+}
+
+type ExecDefinition struct {
+	// +optional
+	Alias string `json:"alias,omitempty"`
+	// +optional
+	ServiceNameTemplate string `json:"serviceNameTemplate,omitempty"`
+	// +optional
+	Container string `json:"container,omitempty"`
+	// +optional
+	Command []string `json:"command,omitempty"`
+	// +optional
+	Help string `json:"help,omitempty"`
 }
 
 type SortDefinition struct {
@@ -281,6 +294,7 @@ type ResourceColumn struct {
 	Icon      bool             `json:"icon,omitempty"`
 	TextAlign string           `json:"textAlign,omitempty"`
 	Dashboard *DashboardResult `json:"dashboard,omitempty"`
+	Exec      *ExecResult      `json:"exec,omitempty"`
 }
 
 type DashboardResult struct {
@@ -291,17 +305,18 @@ type DashboardResult struct {
 	Message string `json:"message,omitempty"`
 }
 
-// ImageSpec contains information about an image used as an icon.
-type ImageSpec struct {
-	// The source for image represented as either an absolute URL to the image or a Data URL containing
-	// the image. Data URLs are defined in RFC 2397.
-	Source string `json:"src"`
-
-	// (optional) The size of the image in pixels (e.g., 25x25).
-	Size string `json:"size,omitempty"`
-
-	// (optional) The mine type of the image (e.g., "image/png").
-	Type string `json:"type,omitempty"`
+// cell.Data == name of resource
+type ExecResult struct {
+	// +optional
+	Alias string `json:"alias,omitempty"`
+	// +optional
+	Resource string `json:"resource,omitempty"` // pods or services
+	// +optional
+	Container string `json:"container,omitempty"`
+	// +optional
+	Command []string `json:"command,omitempty"`
+	// +optional
+	Help string `json:"help,omitempty"`
 }
 
 // ContactData contains information about an individual or organization.

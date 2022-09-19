@@ -18,7 +18,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -92,7 +91,7 @@ func check(path string, info os.FileInfo, err error) error {
 	ext := filepath.Ext(info.Name())
 	if ext == ".yaml" || ext == ".yml" || ext == ".json" {
 		logger.Init(path)
-		content, err := ioutil.ReadFile(path)
+		content, err := os.ReadFile(path)
 		if err != nil {
 			return err
 		}

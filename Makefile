@@ -179,24 +179,25 @@ $(OUTBIN): .go/$(OUTBIN).stamp
 test: unit-tests
 
 unit-tests: $(BUILD_DIRS)
-	@docker run                                                 \
-	    -i                                                      \
-	    --rm                                                    \
-	    -u $$(id -u):$$(id -g)                                  \
-	    -v $$(pwd):/src                                         \
-	    -w /src                                                 \
-	    -v $$(pwd)/.go/bin/$(OS)_$(ARCH):/go/bin                \
-	    -v $$(pwd)/.go/bin/$(OS)_$(ARCH):/go/bin/$(OS)_$(ARCH)  \
-	    -v $$(pwd)/.go/cache:/.cache                            \
-	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
-	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
-	    $(BUILD_IMAGE)                                          \
-	    /bin/bash -c "                                          \
-	        ARCH=$(ARCH)                                        \
-	        OS=$(OS)                                            \
-	        VERSION=$(VERSION)                                  \
-	        ./hack/test.sh $(SRC_PKGS)                          \
-	    "
+	go test -v ./...
+# 	@docker run                                                 \
+# 	    -i                                                      \
+# 	    --rm                                                    \
+# 	    -u $$(id -u):$$(id -g)                                  \
+# 	    -v $$(pwd):/src                                         \
+# 	    -w /src                                                 \
+# 	    -v $$(pwd)/.go/bin/$(OS)_$(ARCH):/go/bin                \
+# 	    -v $$(pwd)/.go/bin/$(OS)_$(ARCH):/go/bin/$(OS)_$(ARCH)  \
+# 	    -v $$(pwd)/.go/cache:/.cache                            \
+# 	    --env HTTP_PROXY=$(HTTP_PROXY)                          \
+# 	    --env HTTPS_PROXY=$(HTTPS_PROXY)                        \
+# 	    $(BUILD_IMAGE)                                          \
+# 	    /bin/bash -c "                                          \
+# 	        ARCH=$(ARCH)                                        \
+# 	        OS=$(OS)                                            \
+# 	        VERSION=$(VERSION)                                  \
+# 	        ./hack/test.sh $(SRC_PKGS)                          \
+# 	    "
 
 ADDTL_LINTERS   := goconst,gofmt,goimports,unparam
 

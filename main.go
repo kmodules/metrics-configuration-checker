@@ -17,6 +17,7 @@ limitations under the License.
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -29,16 +30,23 @@ import (
 	"github.com/spf13/cobra"
 	"gomodules.xyz/logs"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
+	"k8s.io/klog/v2/klogr"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 )
 
 var (
 	filename string
 	reg      = hub.NewRegistryOfKnownResources()
 	logger   = NewLogger(os.Stderr)
+	kc       = MustClient()
 )
 
 const (
@@ -106,6 +114,39 @@ func check(path string, info os.FileInfo, err error) error {
 		_, _ = fmt.Fprintf(os.Stderr, "skipped file: %s\n", path)
 	}
 	return nil
+}
+
+func NewClient() (client.Client, error) {
+	scheme := runtime.NewScheme()
+	_ = clientgoscheme.AddToScheme(scheme)
+	_ = v1.AddToScheme(scheme)
+
+	ctrl.SetLogger(klogr.New())
+	cfg := ctrl.GetConfigOrDie()
+	cfg.QPS = 100
+	cfg.Burst = 100
+
+	mapper, err := apiutil.NewDynamicRESTMapper(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return client.New(cfg, client.Options{
+		Scheme: scheme,
+		Mapper: mapper,
+		//Opts: client.WarningHandlerOptions{
+		//	SuppressWarnings:   false,
+		//	AllowDuplicateLogs: false,
+		//},
+	})
+}
+
+func MustClient() client.Client {
+	kc, err := NewClient()
+	if err != nil {
+		panic(err)
+	}
+	return kc
 }
 
 func isValidJsonPath(schema *v1.JSONSchemaProps, jsonPath string) error {
@@ -176,21 +217,43 @@ func checkMetricsConfigObject(ri p.ResourceInfo) error {
 		logger.Log(err)
 		return nil
 	}
+
 	gvk := schema.GroupVersionKind{
 		Group:   gv.Group,
 		Version: gv.Version,
 		Kind:    targetRef["kind"],
 	}
-	gvr, err := reg.GVR(gvk)
+	mapping, err := kc.RESTMapper().RESTMapping(gvk.GroupKind(), gvk.Version)
 	if err != nil {
 		logger.Log(err)
 		return nil
 	}
 
-	// get resource descriptor from groupVersionResource
-	rd, err := reg.LoadByGVR(gvr)
-	if err != nil {
+	var crdSchema *v1.JSONSchemaProps
+
+	var crd v1.CustomResourceDefinition
+	crdName := fmt.Sprintf("%s.%s", mapping.Resource.Resource, mapping.Resource.Group)
+	err = kc.Get(context.TODO(), client.ObjectKey{Name: crdName}, &crd)
+	if apierrors.IsNotFound(err) {
+		// get resource descriptor from groupVersionResource
+		rd, err := reg.LoadByGVR(mapping.Resource)
+		if err != nil {
+			logger.Log(err)
+			return nil
+		}
+		crdSchema = rd.Spec.Validation.OpenAPIV3Schema
+	} else if err != nil {
 		logger.Log(err)
+		return nil
+	} else {
+		for _, v := range crd.Spec.Versions {
+			if v.Name == gvk.Version && v.Schema != nil {
+				crdSchema = v.Schema.OpenAPIV3Schema
+			}
+		}
+	}
+	if crdSchema == nil {
+		logger.Log(fmt.Errorf("missing schema for %+v", gvk))
 		return nil
 	}
 
@@ -209,7 +272,7 @@ func checkMetricsConfigObject(ri p.ResourceInfo) error {
 		if met["field"] != nil {
 			field := met["field"].(map[string]interface{})
 			if field["path"] != nil {
-				err = isValidJsonPath(rd.Spec.Validation.OpenAPIV3Schema, field["path"].(string))
+				err = isValidJsonPath(crdSchema, field["path"].(string))
 				if err != nil {
 					logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: %s", objKind, err.Error()))
 				}
@@ -222,7 +285,7 @@ func checkMetricsConfigObject(ri p.ResourceInfo) error {
 			for _, l := range labels {
 				labelFields := l.(map[string]interface{})
 				if labelFields["valuePath"] != nil {
-					err = isValidJsonPath(rd.Spec.Validation.OpenAPIV3Schema, labelFields["valuePath"].(string))
+					err = isValidJsonPath(crdSchema, labelFields["valuePath"].(string))
 					if err != nil {
 						logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: %s", objKind, err.Error()))
 					}
@@ -236,7 +299,7 @@ func checkMetricsConfigObject(ri p.ResourceInfo) error {
 			for _, par := range params {
 				paramFields := par.(map[string]interface{})
 				if paramFields["valuePath"] != nil {
-					err = isValidJsonPath(rd.Spec.Validation.OpenAPIV3Schema, paramFields["valuePath"].(string))
+					err = isValidJsonPath(crdSchema, paramFields["valuePath"].(string))
 					if err != nil {
 						logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: %s", objKind, err.Error()))
 					}
@@ -248,7 +311,7 @@ func checkMetricsConfigObject(ri p.ResourceInfo) error {
 		if met["metricValue"] != nil {
 			metricValCfg := met["metricValue"].(map[string]interface{})
 			if metricValCfg["valueFromPath"] != nil {
-				err = isValidJsonPath(rd.Spec.Validation.OpenAPIV3Schema, metricValCfg["valueFromPath"].(string))
+				err = isValidJsonPath(crdSchema, metricValCfg["valueFromPath"].(string))
 				if err != nil {
 					logger.Log(fmt.Errorf("status: check has been failed for resource %q. reason: %s", objKind, err.Error()))
 				}

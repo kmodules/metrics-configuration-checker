@@ -4,15 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: autoscaling.kubedb.com
-    k8s.io/kind: MySQLAutoscaler
-    k8s.io/resource: mysqlautoscalers
+    k8s.io/kind: RedisSentinelAutoscaler
+    k8s.io/resource: redissentinelautoscalers
     k8s.io/version: v1alpha1
-  name: autoscaling.kubedb.com-v1alpha1-mysqlautoscalers
+  name: autoscaling.kubedb.com-v1alpha1-redissentinelautoscalers
 spec:
   resource:
     group: autoscaling.kubedb.com
-    kind: MySQLAutoscaler
-    name: mysqlautoscalers
+    kind: RedisSentinelAutoscaler
+    name: redissentinelautoscalers
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -45,7 +45,7 @@ spec:
           properties:
             compute:
               properties:
-                mysql:
+                sentinel:
                   properties:
                     containerControlledValues:
                       enum:
@@ -104,29 +104,8 @@ spec:
                   - IfReady
                   - Always
                   type: string
-                readinessCriteria:
-                  type: object
                 timeout:
                   type: string
-              type: object
-            storage:
-              properties:
-                mysql:
-                  properties:
-                    expansionMode:
-                      enum:
-                      - Offline
-                      - Online
-                      type: string
-                    scalingThreshold:
-                      format: int32
-                      type: integer
-                    trigger:
-                      type: string
-                    usageThreshold:
-                      format: int32
-                      type: integer
-                  type: object
               type: object
           required:
           - databaseRef

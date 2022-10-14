@@ -4,24 +4,15 @@ metadata:
   creationTimestamp: null
   labels:
     k8s.io/group: ops.kubedb.com
-    k8s.io/kind: RedisOpsRequest
-    k8s.io/resource: redisopsrequests
+    k8s.io/kind: RedisSentinelOpsRequest
+    k8s.io/resource: redissentinelopsrequests
     k8s.io/version: v1alpha1
-  name: ops.kubedb.com-v1alpha1-redisopsrequests
+  name: ops.kubedb.com-v1alpha1-redissentinelopsrequests
 spec:
-  connections:
-  - labels:
-    - ops
-    references:
-    - '{.spec.databaseRef.name}'
-    target:
-      apiVersion: kubedb.com/v1alpha2
-      kind: Redis
-    type: MatchRef
   resource:
     group: ops.kubedb.com
-    kind: RedisOpsRequest
-    name: redisopsrequests
+    kind: RedisSentinelOpsRequest
+    name: redissentinelopsrequests
     scope: Namespaced
     version: v1alpha1
   validation:
@@ -2397,28 +2388,11 @@ spec:
               x-kubernetes-map-type: atomic
             horizontalScaling:
               properties:
-                master:
-                  format: int32
-                  type: integer
                 replicas:
                   format: int32
                   type: integer
               type: object
             restart:
-              type: object
-            sentinel:
-              properties:
-                ref:
-                  properties:
-                    name:
-                      type: string
-                    namespace:
-                      type: string
-                  type: object
-                removeUnusedSentinel:
-                  type: boolean
-              required:
-              - ref
               type: object
             timeout:
               type: string
@@ -2526,31 +2500,15 @@ spec:
                   type: boolean
                 rotateCertificates:
                   type: boolean
-                sentinel:
-                  properties:
-                    ref:
-                      properties:
-                        name:
-                          type: string
-                        namespace:
-                          type: string
-                      type: object
-                    removeUnusedSentinel:
-                      type: boolean
-                  required:
-                  - ref
-                  type: object
               type: object
             type:
               enum:
               - UpdateVersion
               - HorizontalScaling
               - VerticalScaling
-              - VolumeExpansion
               - Restart
               - Reconfigure
               - ReconfigureTLS
-              - ReplaceSentinel
               type: string
             upgrade:
               properties:
@@ -2599,7 +2557,7 @@ spec:
                         x-kubernetes-int-or-string: true
                       type: object
                   type: object
-                redis:
+                redissentinel:
                   properties:
                     limits:
                       additionalProperties:
@@ -2618,21 +2576,6 @@ spec:
                         x-kubernetes-int-or-string: true
                       type: object
                   type: object
-              type: object
-            volumeExpansion:
-              properties:
-                mode:
-                  default: Online
-                  enum:
-                  - Offline
-                  - Online
-                  type: string
-                redis:
-                  anyOf:
-                  - type: integer
-                  - type: string
-                  pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                  x-kubernetes-int-or-string: true
               type: object
           required:
           - databaseRef

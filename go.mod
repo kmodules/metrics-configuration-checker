@@ -9,11 +9,11 @@ require (
 	github.com/stretchr/testify v1.8.0
 	gomodules.xyz/logs v0.0.6
 	k8s.io/apiextensions-apiserver v0.25.2
-	k8s.io/apimachinery v0.25.2
+	k8s.io/apimachinery v0.25.3
 	k8s.io/client-go v0.25.2
 	k8s.io/klog/v2 v2.80.1
 	kmodules.xyz/client-go v0.25.6
-	kmodules.xyz/resource-metadata v0.13.1
+	kmodules.xyz/resource-metadata v0.14.1
 	sigs.k8s.io/controller-runtime v0.13.0
 )
 

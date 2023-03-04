@@ -14,7 +14,7 @@ require (
 	k8s.io/klog/v2 v2.80.1
 	kmodules.xyz/client-go v0.25.18
 	kmodules.xyz/resource-metadata v0.15.1-0.20230201015843-4082ada2762a
-	sigs.k8s.io/controller-runtime v0.13.0
+	sigs.k8s.io/controller-runtime v0.13.1
 )
 
 require (

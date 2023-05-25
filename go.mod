@@ -12,8 +12,8 @@ require (
 	k8s.io/apimachinery v0.25.3
 	k8s.io/client-go v0.25.3
 	k8s.io/klog/v2 v2.80.1
-	kmodules.xyz/client-go v0.25.22
-	kmodules.xyz/resource-metadata v0.17.3
+	kmodules.xyz/client-go v0.25.23
+	kmodules.xyz/resource-metadata v0.17.4
 	sigs.k8s.io/controller-runtime v0.13.1
 )
 
@@ -79,7 +79,7 @@ require (
 	gomodules.xyz/clock v0.0.0-20200817085942-06523dba733f // indirect
 	gomodules.xyz/encoding v0.0.7 // indirect
 	gomodules.xyz/flags v0.1.3 // indirect
-	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
+	gomodules.xyz/jsonpatch/v2 v2.3.0 // indirect
 	gomodules.xyz/jsonpath v0.0.2 // indirect
 	gomodules.xyz/mergo v0.3.13 // indirect
 	gomodules.xyz/sets v0.2.1 // indirect

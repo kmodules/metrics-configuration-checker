@@ -13,7 +13,8 @@ spec:
   - labels:
     - offshoot
     level: Controller
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     selector:
       matchLabels:
         app.kubernetes.io/instance: '{.metadata.name}'
@@ -24,24 +25,11 @@ spec:
       kind: StatefulSet
     type: MatchSelector
   - labels:
-    - exposed_by
-    level: Owner
-    namespacePath: metadata.namespace
-    selector:
-      matchLabels:
-        app.kubernetes.io/instance: '{.metadata.name}'
-        app.kubernetes.io/managed-by: kubedb.com
-        app.kubernetes.io/name: proxysqls.kubedb.com
-    target:
-      apiVersion: v1
-      kind: Service
-    type: MatchSelector
-  - labels:
-    - offshoot
     - connect_via
     level: Controller
     nameTemplate: '{.metadata.name}'
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     target:
       apiVersion: appcatalog.appscode.com/v1alpha1
       kind: AppBinding
@@ -56,7 +44,8 @@ spec:
     type: MatchRef
   - labels:
     - cert_issuer
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     references:
     - '{.spec.tls.issuerRef.name},{.metadata.namespace}'
     target:
@@ -74,7 +63,8 @@ spec:
   - labels:
     - view
     nameTemplate: '{.metadata.name}~ProxySQL.kubedb.com'
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     target:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResource
@@ -82,7 +72,8 @@ spec:
   - labels:
     - view
     nameTemplate: '{.metadata.name}~ProxySQL.kubedb.com'
-    namespacePath: metadata.namespace
+    namespace:
+      path: metadata.namespace
     target:
       apiVersion: core.k8s.appscode.com/v1alpha1
       kind: GenericResourceService
@@ -113,20 +104,34 @@ spec:
         metadata:
           properties:
             name:
-              description: 'Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
+              description: 'Name must be unique within a namespace. Is required when
+                creating resources, although some resources may allow a client to
+                request the generation of an appropriate name automatically. Name
+                is primarily intended for creation idempotence and configuration definition.
+                Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
             namespace:
-              description: "Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the \"default\" namespace, but \"default\" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces"
+              description: "Namespace defines the space within which each name must
+                be unique. An empty namespace is equivalent to the \"default\" namespace,
+                but \"default\" is the canonical representation. Not all objects are
+                required to be scoped to a namespace - the value of this field for
+                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
+                More info: http://kubernetes.io/docs/user-guide/namespaces"
               type: string
             labels:
               additionalProperties:
                 type: string
-              description: 'Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
+              description: 'Map of string keys and values that can be used to organize
+                and categorize (scope and select) objects. May match selectors of
+                replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels'
               type: object
             annotations:
               additionalProperties:
                 type: string
-              description: 'Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
+              description: 'Annotations is an unstructured key value map stored with
+                a resource that may be set by external tools to store and retrieve
+                arbitrary metadata. They are not queryable and should be preserved
+                when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations'
               type: object
           type: object
         spec:
@@ -226,14 +231,13 @@ spec:
                   type: object
                   x-kubernetes-preserve-unknown-fields: true
               type: object
-            mode:
-              enum:
-              - Galera
-              - GroupReplication
-              type: string
             monitor:
               properties:
                 agent:
+                  enum:
+                  - prometheus.io/operator
+                  - prometheus.io
+                  - prometheus.io/builtin
                   type: string
                 prometheus:
                   properties:

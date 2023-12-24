@@ -19,7 +19,7 @@ REPO     := $(notdir $(shell pwd))
 BIN      := client-go
 
 # https://github.com/appscodelabs/gengo-builder
-CODE_GENERATOR_IMAGE ?= ghcr.io/appscode/gengo:release-1.25
+CODE_GENERATOR_IMAGE ?= ghcr.io/appscode/gengo:release-1.29
 
 # This version-strategy uses git tags to set the version string
 git_branch       := $(shell git rev-parse --abbrev-ref HEAD)
@@ -45,7 +45,7 @@ endif
 ### These variables should not need tweaking.
 ###
 
-SRC_PKGS := admissionregistration api apiextensions apiregistration apps batch certificates client core discovery dynamic extensions meta networking openapi policy rbac storage tools
+SRC_PKGS := admissionregistration api apiextensions apiregistration apps batch certificates client cluster conditions core discovery dynamic extensions meta networking openapi policy rbac storage tools
 SRC_DIRS := $(SRC_PKGS) *.go
 
 DOCKER_PLATFORMS := linux/amd64 linux/arm linux/arm64
@@ -58,7 +58,7 @@ ARCH := $(if $(GOARCH),$(GOARCH),$(shell go env GOARCH))
 BASEIMAGE_PROD   ?= gcr.io/distroless/static-debian11
 BASEIMAGE_DBG    ?= debian:bullseye
 
-GO_VERSION       ?= 1.20
+GO_VERSION       ?= 1.21
 BUILD_IMAGE      ?= ghcr.io/appscode/golang-dev:$(GO_VERSION)
 
 OUTBIN = bin/$(OS)_$(ARCH)/$(BIN)
@@ -113,8 +113,8 @@ clientset:
 		--env HTTPS_PROXY=$(HTTPS_PROXY)                 \
 		$(CODE_GENERATOR_IMAGE)                          \
 		deepcopy-gen                                     \
-			--go-header-file "./hack/license/go.txt"     \
-			--input-dirs "$(GO_PKG)/$(REPO)/api/v1"      \
+			--go-header-file "./hack/license/go.txt"       \
+			--input-dirs "$(GO_PKG)/$(REPO)/api/v1"        \
 			--output-file-base zz_generated.deepcopy
 
 # Generate openapi schema
@@ -154,7 +154,7 @@ gen-crd-protos:
 			--packages=-k8s.io/api/core/v1,kmodules.xyz/client-go/api/v1
 
 .PHONY: gen-enum
-gen-enum:
+gen-enum: $(BUILD_DIRS)
 	@docker run                                                 \
 	    -i                                                      \
 	    --rm                                                    \
@@ -172,7 +172,7 @@ gen-enum:
 	    "
 
 .PHONY: gen
-gen: clientset gen-enum openapi gen-crd-protos
+gen: clientset gen-enum # openapi gen-crd-protos
 
 fmt: $(BUILD_DIRS)
 	@docker run                                                 \

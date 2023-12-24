@@ -32,8 +32,7 @@ const (
 
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:skipVerbs=updateStatus
-// +k8s:openapi-gen=true
+// +genclient:onlyVerbs=get
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
@@ -79,7 +78,11 @@ type PageBlockLayout struct {
 	Actions                 *ResourceActions    `json:"actions,omitempty"`
 
 	View *PageBlockTableDefinition `json:"view,omitempty"`
+
+	RequiredFeatureSets map[string]FeatureList `json:"requiredFeatureSets,omitempty"`
 }
+
+type FeatureList []string
 
 type PageBlockTableDefinition struct {
 	Columns []ResourceColumnDefinition `json:"columns,omitempty"`

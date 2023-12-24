@@ -32,8 +32,7 @@ const (
 
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:skipVerbs=updateStatus
-// +k8s:openapi-gen=true
+// +genclient:onlyVerbs=get
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // +kubebuilder:object:root=true
@@ -119,9 +118,15 @@ type ResourceConnection struct {
 	ResourceConnectionSpec `json:",inline,omitempty"`
 }
 
+type NamespaceRef struct {
+	Path          string `json:"path,omitempty"`
+	Selector      string `json:"selector,omitempty"`
+	LabelSelector string `json:"labelSelector,omitempty"`
+}
+
 type ResourceConnectionSpec struct {
-	Type          ConnectionType `json:"type"`
-	NamespacePath string         `json:"namespacePath,omitempty"`
+	Type      ConnectionType `json:"type"`
+	Namespace *NamespaceRef  `json:"namespace,omitempty"`
 
 	// default: metadata.labels
 	// +optional

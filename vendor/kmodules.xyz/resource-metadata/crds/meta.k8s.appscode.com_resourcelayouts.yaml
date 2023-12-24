@@ -85,22 +85,31 @@ spec:
                   query:
                     properties:
                       byLabel:
+                        description: ENUM(authn,authz,auth_secret,backup_via,catalog,cert_issuer,config,connect_via,exposed_by,event,located_on,monitored_by,ocm_bind,offshoot,ops,placed_into,policy,recommended_for,restore_into,scaled_by,source,storage,view)
                         enum:
-                        - id
-                        - config
+                        - authn
+                        - authz
+                        - auth_secret
                         - backup_via
                         - catalog
+                        - cert_issuer
+                        - config
                         - connect_via
                         - exposed_by
+                        - event
+                        - located_on
                         - monitored_by
+                        - ocm_bind
                         - offshoot
-                        - restore_into
-                        - scaled_by
-                        - view
-                        - cert_issuer
+                        - ops
+                        - placed_into
                         - policy
                         - recommended_for
-                        - ops
+                        - restore_into
+                        - scaled_by
+                        - source
+                        - storage
+                        - view
                         type: string
                       raw:
                         type: string
@@ -124,6 +133,12 @@ spec:
                     required:
                     - group
                     - kind
+                    type: object
+                  requiredFeatureSets:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
                     type: object
                   view:
                     properties:
@@ -314,22 +329,31 @@ spec:
                                 query:
                                   properties:
                                     byLabel:
+                                      description: ENUM(authn,authz,auth_secret,backup_via,catalog,cert_issuer,config,connect_via,exposed_by,event,located_on,monitored_by,ocm_bind,offshoot,ops,placed_into,policy,recommended_for,restore_into,scaled_by,source,storage,view)
                                       enum:
-                                      - id
-                                      - config
+                                      - authn
+                                      - authz
+                                      - auth_secret
                                       - backup_via
                                       - catalog
+                                      - cert_issuer
+                                      - config
                                       - connect_via
                                       - exposed_by
+                                      - event
+                                      - located_on
                                       - monitored_by
+                                      - ocm_bind
                                       - offshoot
-                                      - restore_into
-                                      - scaled_by
-                                      - view
-                                      - cert_issuer
+                                      - ops
+                                      - placed_into
                                       - policy
                                       - recommended_for
-                                      - ops
+                                      - restore_into
+                                      - scaled_by
+                                      - source
+                                      - storage
+                                      - view
                                       type: string
                                     raw:
                                       type: string
@@ -354,6 +378,12 @@ spec:
                                   required:
                                   - group
                                   - kind
+                                  type: object
+                                requiredFeatureSets:
+                                  additionalProperties:
+                                    items:
+                                      type: string
+                                    type: array
                                   type: object
                                 view:
                                   properties:
@@ -569,22 +599,31 @@ spec:
                               query:
                                 properties:
                                   byLabel:
+                                    description: ENUM(authn,authz,auth_secret,backup_via,catalog,cert_issuer,config,connect_via,exposed_by,event,located_on,monitored_by,ocm_bind,offshoot,ops,placed_into,policy,recommended_for,restore_into,scaled_by,source,storage,view)
                                     enum:
-                                    - id
-                                    - config
+                                    - authn
+                                    - authz
+                                    - auth_secret
                                     - backup_via
                                     - catalog
+                                    - cert_issuer
+                                    - config
                                     - connect_via
                                     - exposed_by
+                                    - event
+                                    - located_on
                                     - monitored_by
+                                    - ocm_bind
                                     - offshoot
-                                    - restore_into
-                                    - scaled_by
-                                    - view
-                                    - cert_issuer
+                                    - ops
+                                    - placed_into
                                     - policy
                                     - recommended_for
-                                    - ops
+                                    - restore_into
+                                    - scaled_by
+                                    - source
+                                    - storage
+                                    - view
                                     type: string
                                   raw:
                                     type: string
@@ -609,6 +648,12 @@ spec:
                                 required:
                                 - group
                                 - kind
+                                type: object
+                              requiredFeatureSets:
+                                additionalProperties:
+                                  items:
+                                    type: string
+                                  type: array
                                 type: object
                               view:
                                 properties:
@@ -797,22 +842,31 @@ spec:
                               query:
                                 properties:
                                   byLabel:
+                                    description: ENUM(authn,authz,auth_secret,backup_via,catalog,cert_issuer,config,connect_via,exposed_by,event,located_on,monitored_by,ocm_bind,offshoot,ops,placed_into,policy,recommended_for,restore_into,scaled_by,source,storage,view)
                                     enum:
-                                    - id
-                                    - config
+                                    - authn
+                                    - authz
+                                    - auth_secret
                                     - backup_via
                                     - catalog
+                                    - cert_issuer
+                                    - config
                                     - connect_via
                                     - exposed_by
+                                    - event
+                                    - located_on
                                     - monitored_by
+                                    - ocm_bind
                                     - offshoot
-                                    - restore_into
-                                    - scaled_by
-                                    - view
-                                    - cert_issuer
+                                    - ops
+                                    - placed_into
                                     - policy
                                     - recommended_for
-                                    - ops
+                                    - restore_into
+                                    - scaled_by
+                                    - source
+                                    - storage
+                                    - view
                                     type: string
                                   raw:
                                     type: string
@@ -837,6 +891,12 @@ spec:
                                 required:
                                 - group
                                 - kind
+                                type: object
+                              requiredFeatureSets:
+                                additionalProperties:
+                                  items:
+                                    type: string
+                                  type: array
                                 type: object
                               view:
                                 properties:
@@ -1055,22 +1115,31 @@ spec:
                   query:
                     properties:
                       byLabel:
+                        description: ENUM(authn,authz,auth_secret,backup_via,catalog,cert_issuer,config,connect_via,exposed_by,event,located_on,monitored_by,ocm_bind,offshoot,ops,placed_into,policy,recommended_for,restore_into,scaled_by,source,storage,view)
                         enum:
-                        - id
-                        - config
+                        - authn
+                        - authz
+                        - auth_secret
                         - backup_via
                         - catalog
+                        - cert_issuer
+                        - config
                         - connect_via
                         - exposed_by
+                        - event
+                        - located_on
                         - monitored_by
+                        - ocm_bind
                         - offshoot
-                        - restore_into
-                        - scaled_by
-                        - view
-                        - cert_issuer
+                        - ops
+                        - placed_into
                         - policy
                         - recommended_for
-                        - ops
+                        - restore_into
+                        - scaled_by
+                        - source
+                        - storage
+                        - view
                         type: string
                       raw:
                         type: string
@@ -1094,6 +1163,12 @@ spec:
                     required:
                     - group
                     - kind
+                    type: object
+                  requiredFeatureSets:
+                    additionalProperties:
+                      items:
+                        type: string
+                      type: array
                     type: object
                   view:
                     properties:
@@ -1269,6 +1344,8 @@ spec:
                                 - sourceRef
                                 - version
                                 type: object
+                              enforceQuota:
+                                type: boolean
                               flow:
                                 type: string
                               icons:
@@ -1299,6 +1376,7 @@ spec:
                               operationId:
                                 type: string
                             required:
+                            - enforceQuota
                             - flow
                             - operationId
                             type: object
@@ -1339,6 +1417,8 @@ spec:
                     - sourceRef
                     - version
                     type: object
+                  enforceQuota:
+                    type: boolean
                   instanceLabelPaths:
                     description: app.kubernetes.io/instance label must be updated
                       at these paths when refilling metadata
@@ -1375,6 +1455,8 @@ spec:
                     - sourceRef
                     - version
                     type: object
+                required:
+                - enforceQuota
                 type: object
             required:
             - defaultLayout

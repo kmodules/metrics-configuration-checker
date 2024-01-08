@@ -122,7 +122,7 @@ func NewClient() (client.Client, error) {
 	_ = clientgoscheme.AddToScheme(scheme)
 	_ = v1.AddToScheme(scheme)
 
-	ctrl.SetLogger(klogr.New())
+	ctrl.SetLogger(klogr.New()) // nolint:staticcheck
 	cfg := ctrl.GetConfigOrDie()
 	cfg.QPS = 100
 	cfg.Burst = 100

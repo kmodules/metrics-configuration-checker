@@ -543,12 +543,19 @@ spec:
                     trigger:
                       type: string
                   type: object
-                nodeTopologyRef:
+                nodeTopology:
                   properties:
                     name:
                       type: string
+                    scaleDownDiffPercentage:
+                      default: 25
+                      format: int32
+                      type: integer
+                    scaleUpDiffPercentage:
+                      default: 15
+                      format: int32
+                      type: integer
                   type: object
-                  x-kubernetes-map-type: atomic
                 transform:
                   properties:
                     containerControlledValues:
@@ -630,6 +637,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 data:
                   properties:
@@ -646,6 +655,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 dataCold:
                   properties:
@@ -662,6 +673,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 dataContent:
                   properties:
@@ -678,6 +691,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 dataFrozen:
                   properties:
@@ -694,6 +709,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 dataHot:
                   properties:
@@ -710,6 +727,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 dataWarm:
                   properties:
@@ -726,6 +745,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 ingest:
                   properties:
@@ -742,6 +763,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 master:
                   properties:
@@ -758,6 +781,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 ml:
                   properties:
@@ -774,6 +799,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 node:
                   properties:
@@ -790,6 +817,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
                 transform:
                   properties:
@@ -806,6 +835,8 @@ spec:
                     usageThreshold:
                       format: int32
                       type: integer
+                  required:
+                  - expansionMode
                   type: object
               type: object
           required:

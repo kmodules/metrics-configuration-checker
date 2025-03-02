@@ -458,6 +458,13 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_HelmInfo(ref common.Refere
 			SchemaProps: spec.SchemaProps{
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
+					"createNamespace": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
 					"repositories": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"object"},
@@ -485,7 +492,7 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_HelmInfo(ref common.Refere
 						},
 					},
 				},
-				Required: []string{"repositories", "releases"},
+				Required: []string{"createNamespace", "repositories", "releases"},
 			},
 		},
 		Dependencies: []string{
@@ -649,6 +656,35 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_RegistryInfo(ref common.Re
 							},
 						},
 					},
+					"certs": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"object"},
+							AdditionalProperties: &spec.SchemaOrBool{
+								Allows: true,
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
+					"imagePullSecrets": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Default: "",
+										Type:    []string{"string"},
+										Format:  "",
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 		},
@@ -701,6 +737,14 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_RegistryProxies(ref common
 							Format:      "",
 						},
 					},
+					"microsoft": {
+						SchemaProps: spec.SchemaProps{
+							Description: "mcr.microsoft.com",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
 					"appscode": {
 						SchemaProps: spec.SchemaProps{
 							Description: "r.appscode.com",
@@ -731,6 +775,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ResourceLocator(ref common
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
 							Ref:     ref("kmodules.xyz/resource-metadata/apis/shared.ResourceQuery"),
+						},
+					},
+					"impersonate": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"boolean"},
+							Format: "",
 						},
 					},
 				},

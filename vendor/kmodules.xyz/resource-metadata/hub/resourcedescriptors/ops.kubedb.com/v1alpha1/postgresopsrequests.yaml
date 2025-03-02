@@ -15,7 +15,7 @@ spec:
     references:
     - '{.spec.databaseRef.name}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: Postgres
     type: MatchRef
   resource:
@@ -72,32 +72,53 @@ spec:
               - IfReady
               - Always
               type: string
-            configuration:
+            authentication:
               properties:
-                configSecret:
+                secretRef:
                   properties:
                     name:
+                      default: ""
                       type: string
                   type: object
                   x-kubernetes-map-type: atomic
-                inlineConfig:
-                  type: string
+              type: object
+            configuration:
+              properties:
+                applyConfig:
+                  additionalProperties:
+                    type: string
+                  type: object
+                configSecret:
+                  properties:
+                    name:
+                      default: ""
+                      type: string
+                  type: object
+                  x-kubernetes-map-type: atomic
                 removeCustomConfig:
                   type: boolean
               type: object
             databaseRef:
               properties:
                 name:
+                  default: ""
                   type: string
               type: object
               x-kubernetes-map-type: atomic
+            forceFailOver:
+              properties:
+                candidates:
+                  items:
+                    type: string
+                  type: array
+              type: object
             horizontalScaling:
               properties:
                 replicas:
                   format: int32
                   type: integer
                 standbyMode:
-                  default: Warm
+                  default: Hot
                   enum:
                   - Hot
                   - Warm
@@ -109,7 +130,19 @@ spec:
                   - Asynchronous
                   type: string
               type: object
+            reconnectStandby:
+              properties:
+                readyTimeOut:
+                  type: string
+              type: object
             restart:
+              type: object
+            setRaftKeyPair:
+              properties:
+                keyPair:
+                  additionalProperties:
+                    type: string
+                  type: object
               type: object
             timeout:
               type: string
@@ -243,6 +276,10 @@ spec:
               - Restart
               - Reconfigure
               - ReconfigureTLS
+              - RotateAuth
+              - ReconnectStandby
+              - ForceFailOver
+              - SetRaftKeyPair
               type: string
             updateVersion:
               properties:
@@ -254,9 +291,6 @@ spec:
                 arbiter:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:
@@ -371,9 +405,6 @@ spec:
                 postgres:
                   properties:
                     nodeSelectionPolicy:
-                      enum:
-                      - LabelSelector
-                      - Taint
                       type: string
                     resources:
                       properties:

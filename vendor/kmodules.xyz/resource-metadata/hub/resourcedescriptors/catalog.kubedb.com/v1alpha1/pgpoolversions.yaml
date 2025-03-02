@@ -51,19 +51,19 @@ spec:
           properties:
             deprecated:
               type: boolean
-            pgpool:
+            exporter:
               properties:
                 image:
                   type: string
               required:
               - image
               type: object
-            podSecurityPolicies:
+            pgpool:
               properties:
-                databasePolicyName:
+                image:
                   type: string
               required:
-              - databasePolicyName
+              - image
               type: object
             securityContext:
               properties:
@@ -72,6 +72,32 @@ spec:
                 runAsUser:
                   format: int64
                   type: integer
+              type: object
+            ui:
+              items:
+                properties:
+                  disable:
+                    type: boolean
+                  name:
+                    type: string
+                  values:
+                    x-kubernetes-preserve-unknown-fields: true
+                  version:
+                    type: string
+                required:
+                - name
+                type: object
+              type: array
+            updateConstraints:
+              properties:
+                allowlist:
+                  items:
+                    type: string
+                  type: array
+                denylist:
+                  items:
+                    type: string
+                  type: array
               type: object
             version:
               type: string

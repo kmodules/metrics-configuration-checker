@@ -18,6 +18,26 @@ spec:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
+      kind: Druid
+    type: MatchRef
+  - labels:
+    - ops
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: DruidOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1
       kind: Elasticsearch
     type: MatchRef
   - labels:
@@ -38,6 +58,46 @@ spec:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
+      kind: FerretDB
+    type: MatchRef
+  - labels:
+    - ops
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: FerretDBOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1
+      kind: Kafka
+    type: MatchRef
+  - labels:
+    - ops
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: KafkaOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1
       kind: MariaDB
     type: MatchRef
   - labels:
@@ -57,7 +117,7 @@ spec:
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: Memcached
     type: MatchRef
   - labels:
@@ -77,7 +137,7 @@ spec:
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: MongoDB
     type: MatchRef
   - labels:
@@ -98,6 +158,26 @@ spec:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
+      kind: MSSQLServer
+    type: MatchRef
+  - labels:
+    - ops
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: MSSQLServerOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1
       kind: MySQL
     type: MatchRef
   - labels:
@@ -117,7 +197,7 @@ spec:
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: PerconaXtraDB
     type: MatchRef
   - labels:
@@ -137,7 +217,7 @@ spec:
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: PgBouncer
     type: MatchRef
   - labels:
@@ -158,6 +238,26 @@ spec:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
+      kind: Pgpool
+    type: MatchRef
+  - labels:
+    - ops
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: PgpoolOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1
       kind: Postgres
     type: MatchRef
   - labels:
@@ -177,7 +277,7 @@ spec:
     references:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
-      apiVersion: kubedb.com/v1alpha2
+      apiVersion: kubedb.com/v1
       kind: ProxySQL
     type: MatchRef
   - labels:
@@ -198,6 +298,26 @@ spec:
     - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
     target:
       apiVersion: kubedb.com/v1alpha2
+      kind: RabbitMQ
+    type: MatchRef
+  - labels:
+    - ops
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: RabbitMQOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1
       kind: Redis
     type: MatchRef
   - labels:
@@ -209,6 +329,66 @@ spec:
     target:
       apiVersion: kubedb.com/v1alpha1
       kind: RedisOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Singlestore
+    type: MatchRef
+  - labels:
+    - ops
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: SinglestoreOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: Solr
+    type: MatchRef
+  - labels:
+    - ops
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: SolrOpsRequest
+    type: MatchRef
+  - labels:
+    - recommended_for
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.target.name},{.metadata.namespace},{.spec.target.kind},{.spec.target.apiGroup}'
+    target:
+      apiVersion: kubedb.com/v1alpha2
+      kind: ZooKeeper
+    type: MatchRef
+  - labels:
+    - ops
+    namespace:
+      path: metadata.namespace
+    references:
+    - '{.spec.operation.metadata.name},{.spec.operation.metadata.namespace},{.spec.operation.kind},{.spec.operation.apiVersion}'
+    target:
+      apiVersion: kubedb.com/v1alpha1
+      kind: ZooKeeperOpsRequest
     type: MatchRef
   resource:
     group: supervisor.appscode.com

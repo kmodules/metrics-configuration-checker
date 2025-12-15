@@ -271,11 +271,11 @@ func checkMetricsConfigObject(ri p.ResourceInfo) error {
 
 	// looping over the metrics list and check json paths
 	for _, m := range metrics {
-		met := m.(map[string]interface{})
+		met := m.(map[string]any)
 
 		// check Field path
 		if met["field"] != nil {
-			field := met["field"].(map[string]interface{})
+			field := met["field"].(map[string]any)
 			if field["path"] != nil {
 				err = isValidJsonPath(crdSchema, field["path"].(string))
 				if err != nil {
@@ -286,9 +286,9 @@ func checkMetricsConfigObject(ri p.ResourceInfo) error {
 
 		// check Label's json path
 		if met["labels"] != nil {
-			labels := met["labels"].([]interface{})
+			labels := met["labels"].([]any)
 			for _, l := range labels {
-				labelFields := l.(map[string]interface{})
+				labelFields := l.(map[string]any)
 				if labelFields["valuePath"] != nil {
 					err = isValidJsonPath(crdSchema, labelFields["valuePath"].(string))
 					if err != nil {
@@ -300,9 +300,9 @@ func checkMetricsConfigObject(ri p.ResourceInfo) error {
 
 		// check Parameter's json path
 		if met["params"] != nil {
-			params := met["params"].([]interface{})
+			params := met["params"].([]any)
 			for _, par := range params {
-				paramFields := par.(map[string]interface{})
+				paramFields := par.(map[string]any)
 				if paramFields["valuePath"] != nil {
 					err = isValidJsonPath(crdSchema, paramFields["valuePath"].(string))
 					if err != nil {
@@ -314,7 +314,7 @@ func checkMetricsConfigObject(ri p.ResourceInfo) error {
 
 		// check metric value json path
 		if met["metricValue"] != nil {
-			metricValCfg := met["metricValue"].(map[string]interface{})
+			metricValCfg := met["metricValue"].(map[string]any)
 			if metricValCfg["valueFromPath"] != nil {
 				err = isValidJsonPath(crdSchema, metricValCfg["valueFromPath"].(string))
 				if err != nil {

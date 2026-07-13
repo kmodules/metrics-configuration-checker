@@ -2,21 +2,21 @@ apiVersion: meta.k8s.appscode.com/v1alpha1
 kind: ResourceDescriptor
 metadata:
   labels:
-    k8s.io/group: operator.k8s.appscode.com
-    k8s.io/kind: ShardConfiguration
-    k8s.io/resource: shardconfigurations
+    k8s.io/group: catalog.appscode.com
+    k8s.io/kind: QdrantBinding
+    k8s.io/resource: qdrantbindings
     k8s.io/version: v1alpha1
-  name: operator.k8s.appscode.com-v1alpha1-shardconfigurations
+  name: catalog.appscode.com-v1alpha1-qdrantbindings
 spec:
   resource:
-    group: operator.k8s.appscode.com
-    kind: ShardConfiguration
-    name: shardconfigurations
-    scope: Cluster
+    group: catalog.appscode.com
+    kind: QdrantBinding
+    name: qdrantbindings
+    scope: Namespaced
     version: v1alpha1
   validation:
     openAPIV3Schema:
-      description: ShardConfiguration is the Schema for the shardconfigurations API.
+      description: QdrantBinding is the Schema for the qdrantbindings API
       properties:
         apiVersion:
           description: |-
@@ -42,6 +42,14 @@ spec:
                 is primarily intended for creation idempotence and configuration definition.
                 Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
               type: string
+            namespace:
+              description: "Namespace defines the space within which each name must
+                be unique. An empty namespace is equivalent to the \"default\" namespace,
+                but \"default\" is the canonical representation. Not all objects are
+                required to be scoped to a namespace - the value of this field for
+                those objects will be empty. \n Must be a DNS_LABEL. Cannot be updated.
+                More info: http://kubernetes.io/docs/user-guide/namespaces"
+              type: string
             labels:
               additionalProperties:
                 type: string
@@ -59,46 +67,36 @@ spec:
               type: object
           type: object
         spec:
-          description: ShardConfigurationSpec defines the desired state of ShardConfiguration.
+          description: BindingSpec defines the desired state of Binding
           properties:
-            controllers:
-              items:
-                description: TypedObjectReference represents a typed namespaced object.
-                properties:
-                  apiGroup:
-                    type: string
-                  kind:
-                    type: string
-                  name:
-                    description: |-
-                      Name of the referent.
-                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                    type: string
-                  namespace:
-                    description: |-
-                      Namespace of the referent.
-                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
-                    type: string
-                required:
-                - name
-                type: object
-              minItems: 1
-              type: array
-            resources:
-              items:
-                properties:
-                  apiGroup:
-                    type: string
-                  kind:
-                    type: string
-                  shardKeyCandidates:
-                    items:
-                      type: string
-                    type: array
-                  useCooperativeShardMigration:
-                    type: boolean
-                type: object
-              minItems: 1
-              type: array
+            sourceRef:
+              description: SourceRef refers to the source app instance.
+              properties:
+                name:
+                  description: |-
+                    Name of the referent.
+                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                  type: string
+                namespace:
+                  description: |-
+                    Namespace of the referent.
+                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
+                  type: string
+              required:
+              - name
+              type: object
+            uiExposure:
+              description: UIExposure holds the specification of UI exposer
+              properties:
+                disableCostEfficiency:
+                  type: boolean
+                disableUI:
+                  type: boolean
+              required:
+              - disableCostEfficiency
+              - disableUI
+              type: object
+          required:
+          - sourceRef
           type: object
       type: object

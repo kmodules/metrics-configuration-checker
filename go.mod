@@ -13,7 +13,7 @@ require (
 	k8s.io/client-go v0.34.3
 	k8s.io/klog/v2 v2.130.1
 	kmodules.xyz/client-go v0.34.3
-	kmodules.xyz/resource-metadata v0.48.0
+	kmodules.xyz/resource-metadata v0.49.0
 	sigs.k8s.io/controller-runtime v0.22.4
 )
 
@@ -102,7 +102,7 @@ require (
 	gomodules.xyz/pointer v0.1.0 // indirect
 	gomodules.xyz/sets v0.2.1 // indirect
 	gomodules.xyz/wait v0.2.0 // indirect
-	gomodules.xyz/x v0.0.17 // indirect
+	gomodules.xyz/x v0.0.18 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
